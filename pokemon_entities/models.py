@@ -13,13 +13,16 @@ class Pokemon(models.Model):
     )
     title_en = models.CharField(
         max_length=30,
+        blank=True,
         verbose_name='Название ен'
     )
     title_jp = models.CharField(
         max_length=30,
+        blank=True,
         verbose_name='Название яп'
     )
     description = models.TextField(
+        blank=True,
         verbose_name='Описание'
     )
     previous_evolution = models.ForeignKey(
@@ -27,17 +30,9 @@ class Pokemon(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='next_evolution',
+        related_name='next_evolutions',
         verbose_name='предыдущая эволюция'
     )
-    element_type = models.ManyToManyField(
-        'PokemonElementType',
-        blank=True,
-        related_name='pokemons',
-        verbose_name='Стихии'
-
-    )
-
     def __str__(self):
         return self.title_ru
 
@@ -46,12 +41,8 @@ class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(
         Pokemon,
         on_delete=models.CASCADE,
+        related_name='entities',
         verbose_name='Покемон'
-    )
-    image = models.ImageField(
-        blank=True,
-        null=True,
-        verbose_name='Изображение'
     )
     appeared_at = models.DateTimeField(
         null=True,
@@ -98,21 +89,3 @@ class PokemonEntity(models.Model):
         blank=True,
         verbose_name='Стамина'
     )
-
-class PokemonElementType(models.Model):
-    title = models.CharField(max_length=1000)
-    strong_against = models.ManyToManyField(
-        'self',
-        blank=True,
-        verbose_name='Силен против'
-    )
-    image = models.ImageField(
-        blank=True,
-        null=True,
-        verbose_name='Изображение'
-    )
-
-
-
-    def __str__(self):
-        return self.title
