@@ -105,18 +105,10 @@ def show_pokemon(request, pokemon_id):
                 pokemon_data['lat'],
                 pokemon_data['lon'],
                 pokemon_data['img_url'],
-            )
-            print(f"Покемон: {pokemon.title_ru}")
-            print(f"Есть ли image у покемона: {bool(pokemon.image)}")
-            if pokemon.image:
-                print(f"URL покемона: {pokemon.image.url}")
-                print(f"Путь к файлу: {pokemon.image.path}")
-
-            print(f"Количество сущностей: {entities.count()}")
+           )
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(),
         'pokemon': pokemon_data
     })
-
 
